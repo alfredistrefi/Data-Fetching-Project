@@ -1,0 +1,131 @@
+.layout-container {
+  max-width: 750px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  justify-content: center;
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+}
+
+.grayscale .image {
+  filter: grayscale(100%);
+}
+
+.button-wrapper {
+
+  width: 100%;
+  display: flex;
+  max-width: 750px; /* Restrict button wrapper to the max width */
+  margin: 0 auto; /* Center the button wrapper within the max width */
+  justify-content: flex-start; /* Align buttons to the left */
+  height: 35px;
+}
+.button1{
+ 
+  background-color: blueviolet;
+  color: #fff;
+  height: 30px;
+  border-radius: 3px;
+}
+
+.button2 {
+  margin-left: auto; /* Push Button 2 to the right */
+  background-color: blueviolet;
+  color: #fff;
+  height: 30px;
+  border-radius: 3px;
+ 
+}
+.button3 {
+  align-items: center;
+  background-color: blueviolet;
+  color: #fff;
+  height: 30px;
+  width: 750px;
+  border-radius: 3px;
+}
+
+.caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 96%;
+  background-color: rgba(0, 0, 0, 0.6); /* Adjust the alpha value to control the transparency */
+  color: #fff; /* Caption text color */
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/*toogle button*/
+input[type=checkbox] {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+label {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 40px;
+  height: 20px;
+  background: grey;
+  display: block;
+  border-radius: 20px;
+  position: relative;
+}
+
+label:after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 18px;
+  transition: 0.3s;
+}
+
+input:checked + label {
+  background: #bada55;
+}
+
+input:checked + label:after {
+  left: calc(100% - 1px);
+  transform: translateX(-100%);
+}
+
+label:active:after {
+  width: 26px;
+}
+
+/* centering */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+
+.loading-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 20px;
+  font-weight: bold;
+  color: gray;
+}
