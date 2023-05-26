@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './ImageGallery.css';
 
@@ -9,24 +9,23 @@ const App = () => {
   const [photoCount, setPhotoCount] = useState(0);
 
   useEffect(() => {
-    fetchPhotos();
+    fetchPhotos(4);
   }, []);
 
-  const fetchPhotos = () => {
+  const fetchPhotos = (count) => {
     setLoading(true);
-    setPhotoCount(4);
+    setPhotoCount(count);
 
     const size = '800/600';
 
     fetch(`https://picsum.photos/v2/list?orientation=landscape&size=${size}`)
-      .then(response => response.json())
-      .then(data => {
-        const randomPhotos = getRandomElements(data, photoCount);
+      .then((response) => response.json())
+      .then((data) => {
+        const randomPhotos = getRandomElements(data, count);
         setPhotos(randomPhotos);
         setLoading(false);
-        scrollRef.current.scrollTo(0, 0); // Scroll back to the top
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error:', error);
         setLoading(false);
       });
@@ -38,15 +37,14 @@ const App = () => {
     const size = '800/600';
 
     fetch(`https://picsum.photos/v2/list?orientation=landscape&size=${size}`)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         const randomPhotos = getRandomElements(data, 4);
-        setPhotos(prevPhotos => [...prevPhotos, ...randomPhotos]);
-        setPhotoCount(prevCount => prevCount + 4);
+        setPhotos((prevPhotos) => [...prevPhotos, ...randomPhotos]);
+        setPhotoCount((prevCount) => prevCount + 4);
         setLoading(false);
-        scrollRef.current.scrollTo(0, 0); // Scroll back to the top
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error:', error);
         setLoading(false);
       });
@@ -61,36 +59,37 @@ const App = () => {
     setGrayscale(!grayscale);
   };
 
-  const scrollRef = useRef(null);
-
   return (
-    <div>
+    <div className="container">
       <div className="button-wrapper">
         <input type="checkbox" id="switch" checked={grayscale} onChange={toggleGrayscale} />
         <label htmlFor="switch">Toggle</label>
-        <button className="button2" onClick={fetchPhotos}>
+        <button className="button2" onClick={() => fetchPhotos(4)}>
           Fetch New Photos
         </button>
       </div>
 
-      {/* Display skeleton loading indicator while waiting for images */}
-      {loading ? (
-        <div className="loading-indicator">Loading...</div>
-      ) : (
-        <div className={`layout-container ${grayscale ? 'grayscale' : ''}`}>
-          {photos.map((photo, index) => (
-            <div key={index} className="image-wrapper">
+      <div className={`image-gallery ${grayscale ? 'grayscale' : ''}`}>
+        {/* Display skeleton loading indicator while waiting for images */}
+        {loading ? (
+          <div className="loading-indicator">Loading...</div>
+        ) : (
+          <>
+            {photos.map((photo, index) => (
+              <div key={index} className="image-wrapper">
               <img
-                src={photo.download_url}
-                alt={`Image ${index + 1}`}
-                className="image"
-                style={{ filter: grayscale ? 'grayscale(100%)' : 'none' }}
-              />
-              <div className="caption">{photo.author}</div>
-            </div>
-          ))}
-        </div>
-      )}
+    src={photo.download_url}
+    alt={`Image ${index + 1}`}
+    className="image"
+    style={{ filter: grayscale ? 'grayscale(100%)' : 'none' }}
+  />
+  <div className="caption">{photo.author}</div>
+ 
+      </div>
+            ))}
+          </>
+        )}
+      </div>
 
       <button className="button3" onClick={loadMorePhotos}>
         Load More
